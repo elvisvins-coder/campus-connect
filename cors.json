@@ -1,0 +1,1 @@
+[{"origin":["http://localhost:5173","https://tsucampus-network.web.app","https://tsucampus-network.firebaseapp.com"],"method":["GET","POST","PUT","DELETE","HEAD"],"maxAgeSeconds":3600,"responseHeader":["Content-Type","Authorization","Content-Length"]}]
