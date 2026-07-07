@@ -20,7 +20,7 @@ import { StorySystem } from "./StorySystem"
 import Marketplace from "./Marketplace";
 import Departments from "./Departments";
 import LostAndFound from "./LostAndFound";
-import DirectMessages from "./DirectMessages";
+import DirectMessages, { startConversation } from "./DirectMessages";
 
 // ── Nigeria States & LGAs ────────────────────────────────────────────────
 const NIGERIA_STATE_LGAS: Record<string, string[]> = {
@@ -2540,6 +2540,7 @@ const PublicProfile = ({
   onViewProfile,
   onShowFollowers,
   onImageClick,
+  onOpenMessage,
 }: {
   uid: string;
   currentUserId: string;
@@ -2550,6 +2551,7 @@ const PublicProfile = ({
   onViewProfile: (uid: string) => void;
   onShowFollowers: (uid: string, type: "followers"|"following") => void;
   onImageClick: (images: string[], index: number) => void;
+  onOpenMessage?: (uid: string) => void;
 }) => {
   const [profile,  setProfile]  = useState<UserProfile|null>(null);
   const [posts,    setPosts]    = useState<Post[]>([]);
@@ -2699,9 +2701,25 @@ const PublicProfile = ({
             : initials(profile.name)}
         </div>
 
-        {/* Follow button — hide for admin */}
+        {/* Follow + Message buttons — hide for admin */}
         {!isOwnProfile && uid !== ADMIN_UID && (
-          <div style={{ position: "absolute", bottom: 16, right: 20 }}>
+          <div style={{ position: "absolute", bottom: 16, right: 20, display: "flex", gap: 8, zIndex: 2 }}>
+            <button
+              onClick={async () => {
+                const convoId = await startConversation(currentUserId ? { uid: currentUserId } : auth.currentUser, myProfile, uid, profile);
+                onOpenMessage?.(uid);
+              }}
+              style={{
+                padding: "8px 18px", borderRadius: 100,
+                fontSize: 12.5, fontWeight: 700,
+                fontFamily: "'Sora',sans-serif", cursor: "pointer",
+                border: "1.5px solid rgba(96,165,250,0.35)",
+                background: "rgba(96,165,250,0.12)",
+                color: "#60a5fa",
+              }}
+            >
+              💬 Message
+            </button>
             <button
               onClick={() => isFollowing ? onUnfollow(uid) : onFollow(uid)}
               style={{
@@ -5272,6 +5290,7 @@ const ProfilePage = ({
           position:"absolute", inset:0,
           background:"linear-gradient(to top,rgba(6,13,8,0.6),transparent)",
           zIndex:1,
+          pointerEvents:"none",
         }}/>
         {/* Cover edit button */}
         {editMode && (
@@ -6541,7 +6560,8 @@ const [postAnonymous,    setPostAnonymous]    = useState(false);
   // CBT Exam state
   const [examBank,    setExamBank]    = useState<CBTBank|null>(null);
   const [examActive,  setExamActive]  = useState(false);
-  const [examCountdown, setExamCountdown] = useState<{title:string; examDate:any; active:boolean} | null>(null);
+const [examCountdown, setExamCountdown] = useState<{title:string; examDate:any; active:boolean} | null>(null);
+  const [dmUnreadCount, setDmUnreadCount] = useState(0);
   const [theme, setTheme] = useState<"dark"|"light">(
     () => (localStorage.getItem("cc_theme") as "dark"|"light") || "dark"
   );
@@ -6636,6 +6656,18 @@ const composerImageRef = useRef<HTMLInputElement>(null);
     return () => unsub();
   }, []);
 
+  // ── Unread DM count ─────────────────────────────────────────
+  useEffect(() => {
+    const q = query(
+      collection(db, "conversations"),
+      where("participants", "array-contains", currentUser.uid)
+    );
+    const unsub = onSnapshot(q, snap => {
+      const unreadCount = snap.docs.filter(d => (d.data().unreadBy || []).includes(currentUser.uid)).length;
+      setDmUnreadCount(unreadCount);
+    }, (err) => console.error("Unread DM count error:", err));
+    return () => unsub();
+  }, [currentUser.uid]);
   // ── Live feed ─────────────────────────────────────────────
   useEffect(()=>{
     const q = query(collection(db,"posts"), orderBy("createdAt","desc"), limit(40));
@@ -8260,6 +8292,9 @@ const showToast = (msg: string) => {
               <div className="nav-active-bar"/>
               <span className="nav-icon">{item.icon}</span>
               <span className="nav-label">{item.label}</span>
+              {item.id === "messages" && dmUnreadCount > 0 && (
+                <span className="nav-badge">{dmUnreadCount > 9 ? "9+" : dmUnreadCount}</span>
+              )}
               {item.badge && <span className="nav-badge">{item.badge}</span>}
             </div>
           ))}
@@ -8373,6 +8408,8 @@ const showToast = (msg: string) => {
         onViewProfile={openPublicProfile}
         onShowFollowers={(uid, type) => setShowFollowers({ uid, type })}
         onImageClick={openViewer}
+        onOpenMessage={(uid) => { setActiveNav("messages"); }}
+      
       />
     ) : (
       <StudentSearch
@@ -8861,6 +8898,9 @@ const showToast = (msg: string) => {
             onClick={()=>setActiveNav(item.id)}
             role="button" tabIndex={0}
           >
+            {item.id === "messages" && dmUnreadCount > 0 && (
+              <div className="bottom-nav-badge">{dmUnreadCount > 9 ? "9+" : dmUnreadCount}</div>
+            )}
             {item.badge && <div className="bottom-nav-badge">{item.badge}</div>}
             <span className="bottom-nav-icon">{item.icon}</span>
             <span className="bottom-nav-label">{item.label}</span>
