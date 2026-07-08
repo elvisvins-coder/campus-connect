@@ -255,7 +255,28 @@ const deptFmt = { num: String(stats.departments || "—"), sup: stats.department
           gap: 8px;
           margin-left: 8px;
         }
+@media (max-width: 640px) {
+          .navbar {
+            padding: 0 14px;
+          }
+          .nav-wordmark {
+            display: none;
+          }
+          .nav-cta {
+            gap: 6px;
+            margin-left: 4px;
+          }
+          .btn-pill {
+            padding: 7px 14px;
+            font-size: 12px;
+          }
+        }
 
+        @media (max-width: 380px) {
+          .btn-pill-outline {
+            display: none;
+          }
+        }
         .btn-pill {
           padding: 9px 22px;
           border-radius: 100px;
