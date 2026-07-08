@@ -163,8 +163,11 @@ type UserProfile = {
   level: string;
   tribe?: string;
   lga?: string;
+  stateNg?: string;
+  phone?: string;
   bio?: string;
   avatarUrl?: string;
+  coverUrl?: string;
   followers?: string[];
   following?: string[];
   profileLocked?: boolean;
@@ -206,7 +209,7 @@ type Post = {
 
 
 
-const NAV_ITEMS = [
+const NAV_ITEMS: { id: string; icon: string; label: string; badge?: number }[] = [
   { id: "feed",        icon: "⊞", label: "Home Feed" },
   { id: "search",      icon: "🔍", label: "Find Students" },
   { id: "notices",     icon: "📋", label: "Notice Board" },
@@ -222,7 +225,7 @@ const NAV_ITEMS = [
   { id: "settings",    icon: "⚙️", label: "Settings" },
 ];
 
-const BOTTOM_NAV = [
+const BOTTOM_NAV: { id: string; icon: string; label: string; badge?: number }[] = [
   { id: "feed",    icon: "⊞", label: "Feed" },
   { id: "search",  icon: "🔍", label: "Search" },
   { id: "messages",icon: "💬", label: "Messages" },
@@ -4652,7 +4655,7 @@ const CBTExam = ({
       setTimeLeft(prev => {
         if (prev <= 1) {
           clearInterval(timerRef.current);
-          handleSubmit(true);
+          handleSubmit();
           return 0;
         }
         return prev - 1;
@@ -4671,7 +4674,7 @@ const CBTExam = ({
     setAnswers(prev => ({ ...prev, [qId]: option }));
   };
 
-  const handleSubmit = async (autoSubmit = false) => {
+  const handleSubmit = async () => {
     if (submitted) return;
     clearInterval(timerRef.current);
     setSubmitted(true);
@@ -5147,7 +5150,7 @@ const CBTExam = ({
               </button>
             ) : (
               <button
-                onClick={() => handleSubmit(false)}
+                onClick={() => handleSubmit()}
                 disabled={savingScore}
                 style={{
                   flex: 1, padding: "12px",
@@ -5204,7 +5207,7 @@ const CBTExam = ({
           {/* Submit all button (visible from any question) */}
           {answeredCount > 0 && currentIdx < totalQ - 1 && (
             <button
-              onClick={() => handleSubmit(false)}
+              onClick={() => handleSubmit()}
               disabled={savingScore}
               style={{
                 width: "100%", padding: "11px", marginTop: 16,

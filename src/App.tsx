@@ -710,7 +710,7 @@ function ProtectedRoute() {
     const unsub = onAuthStateChanged(
       auth,
       user => setAuthUser(user),
-      (err) => console.error("Auth state error:", err.code, err.message)
+      (err) => console.error("Auth state error:", (err as any).code, err.message)
     );
     return () => unsub();
   }, []);

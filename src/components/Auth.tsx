@@ -146,7 +146,7 @@ type SignupData = {
   stateNg: string; lga: string; phone: string; password: string;
 };
 
-const INIT: SignupData = { name:"", surname:"", email:"", faculty:"", department:"", level:"", stateNg:"", lga:"", password:"" };
+const INIT: SignupData = { name:"", surname:"", email:"", faculty:"", department:"", level:"", stateNg:"", lga:"",phone: "", password:"" };
 
 export default function Auth() {
   const [loginEmail,    setLoginEmail]    = useState("");
