@@ -2154,7 +2154,7 @@ const VerificationGate = ({
       }}>
 <div style={{ marginBottom: 12, textAlign: "center" }}>
   <img
-    src="src/assets/logo.png"
+    src={lockIcon}
     alt="Campus Connect Logo"
     style={{
       width: "80px",
@@ -8092,7 +8092,7 @@ const showToast = (msg: string) => {
           {sidebarOpen?"✕":"☰"}
         </button>
         <div className="topbar-logo">
-          <div className="logo-mark"><img src="src/assets/logo.png"></img></div>
+          <div className="logo-mark"><img src={lockIcon} alt="Campus Connect" /></div>
           <div className="logo-text-wrap">
             <div className="logo-text">Campus Connect</div>
             <div className="logo-sub">TASU · Jalingo</div>
