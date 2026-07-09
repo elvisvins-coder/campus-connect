@@ -2704,21 +2704,18 @@ const PublicProfile = ({
             : initials(profile.name)}
         </div>
 
-       {/* Follow + Message buttons — hide for admin */}
+        {/* Follow + Message buttons — hide for admin */}
         {!isOwnProfile && uid !== ADMIN_UID && (
-          <div style={{
-            position: "absolute", bottom: 16, right: 20, left: 24,
-            display: "flex", gap: 6, zIndex: 2,
-            justifyContent: "flex-end", flexWrap: "wrap",
-          }}>
+          <div style={{ position: "absolute", bottom: 16, right: 20, display: "flex", gap: 8, zIndex: 2 }}>
             <button
-              className="profile-action-btn message-btn"
               onClick={async () => {
                 const convoId = await startConversation(currentUserId ? { uid: currentUserId } : auth.currentUser, myProfile, uid, profile);
                 onOpenMessage?.(uid);
               }}
               style={{
-                borderRadius: 100,
+                padding: "8px 18px", borderRadius: 100,
+                fontSize: 12.5, fontWeight: 700,
+                fontFamily: "'Sora',sans-serif", cursor: "pointer",
                 border: "1.5px solid rgba(96,165,250,0.35)",
                 background: "rgba(96,165,250,0.12)",
                 color: "#60a5fa",
@@ -2727,10 +2724,11 @@ const PublicProfile = ({
               💬 Message
             </button>
             <button
-              className="profile-action-btn follow-btn"
               onClick={() => isFollowing ? onUnfollow(uid) : onFollow(uid)}
               style={{
-                borderRadius: 100,
+                padding: "8px 22px", borderRadius: 100,
+                fontSize: 12.5, fontWeight: 700,
+                fontFamily: "'Sora',sans-serif", cursor: "pointer",
                 border: isFollowing
                   ? "1.5px solid rgba(255,255,255,0.2)"
                   : "1.5px solid rgba(22,163,74,0.4)",
@@ -5348,33 +5346,32 @@ const ProfilePage = ({
           )}
         </div>
         <input ref={avatarRef} type="file" accept="image/*" style={{display:"none"}} onChange={handleAvatarChange}/>
-      {/* Save/Edit buttons */}
-        <div style={{
-          marginLeft:"auto", display:"flex", gap:6,
-          position:"relative", zIndex:2,
-          maxWidth:"60%", flexWrap:"wrap", justifyContent:"flex-end",
-        }}>
+        {/* Save/Edit buttons */}
+        <div style={{marginLeft:"auto", display:"flex", gap:8, position:"relative", zIndex:2}}>
           {editMode ? (
             <>
-              <button className="profile-action-btn edit-cover-btn" onClick={()=>setEditMode(false)} style={{
-                border:"1px solid var(--border)",
-                background:"transparent", color:"var(--text-2)",
+              <button onClick={()=>setEditMode(false)} style={{
+                padding:"7px 16px", borderRadius:100, border:"1px solid var(--border)",
+                background:"transparent", color:"var(--text-2)", fontSize:12, fontWeight:600,
+                fontFamily:"'Sora',sans-serif", cursor:"pointer",
               }}>Cancel</button>
-              <button className="profile-action-btn edit-cover-btn" onClick={handleSaveProfile} disabled={profileSaving} style={{
-                border:"none",
+              <button onClick={handleSaveProfile} disabled={profileSaving} style={{
+                padding:"7px 18px", borderRadius:100, border:"none",
                 background:"linear-gradient(135deg,#b45309,#f59e0b)",
-                color:"#1a0a00",
+                color:"#1a0a00", fontSize:12, fontWeight:700,
+                fontFamily:"'Sora',sans-serif", cursor:"pointer",
                 opacity:profileSaving?0.6:1,
               }}>{profileSaving?"Saving…":"Save Profile"}</button>
             </>
           ):(
-            <button className="profile-action-btn edit-cover-btn" onClick={()=>setEditMode(true)} style={{
+            <button onClick={()=>setEditMode(true)} style={{
+              padding:"7px 18px", borderRadius:100,
               border:"1.5px solid rgba(22,163,74,0.4)",
               background:"rgba(22,163,74,0.1)", color:"var(--green-glow)",
+              fontSize:12, fontWeight:700, fontFamily:"'Sora',sans-serif", cursor:"pointer",
             }}>✏️ Edit Profile</button>
           )}
         </div>
-        
       </div>
 
       <div style={{padding:"0 20px"}}>
@@ -7738,23 +7735,6 @@ const showToast = (msg: string) => {
           .action-btn{padding:6px 8px;font-size:11px;}
         }
         @media (max-width:379px){
-        .profile-action-btn{
-  border-radius:100px;
-  font-weight:700;
-  font-family:'Sora',sans-serif;
-  cursor:pointer;
-  white-space:nowrap;
-  flex-shrink:0;
-}
-.message-btn{ padding:8px 18px; font-size:12.5px; }
-.follow-btn{ padding:8px 22px; font-size:12.5px; }
-.edit-cover-btn{ padding:7px 18px; font-size:12px; }
-
-@media (max-width:379px){
-  .message-btn{ padding:6px 12px!important; font-size:11px!important; }
-  .follow-btn{ padding:6px 14px!important; font-size:11px!important; }
-  .edit-cover-btn{ padding:6px 12px!important; font-size:11px!important; }
-}
   .main-feed{padding:10px 10px calc(var(--bottom-nav-h) + 10px);width:100%;max-width:100%;overflow-x:hidden;}          .post-card{padding:12px;margin-bottom:10px;}
         }
 
