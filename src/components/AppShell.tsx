@@ -5347,7 +5347,18 @@ const ProfilePage = ({
         </div>
         <input ref={avatarRef} type="file" accept="image/*" style={{display:"none"}} onChange={handleAvatarChange}/>
         {/* Save/Edit buttons */}
-        <div style={{position:"absolute", bottom:16, right:20, display:"flex", gap:8, zIndex:2}}>
+        <div
+  style={{
+    marginLeft: "auto",
+    display: "flex",
+    gap: 8,
+    position: "relative",
+    zIndex: 2,
+    maxWidth: "55%",
+    justifyContent: "flex-end",
+    flexWrap: "wrap",
+  }}
+>
           {editMode ? (
             <>
               <button onClick={()=>setEditMode(false)} style={{
@@ -7529,8 +7540,8 @@ const showToast = (msg: string) => {
           --sidebar-w:248px;--right-w:296px;--topbar-h:58px;--bottom-nav-h:64px;
           --transition:all 0.2s cubic-bezier(0.4,0,0.2,1);
         }
-        html{height:100%;overflow-x:hidden;width:100%;}
-        body{min-height:100%;width:100%;background:var(--dark);color:var(--text);font-family:'Sora',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+        html{height:100%;}
+        body{min-height:100%;background:var(--dark);color:var(--text);font-family:'Sora',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
         ::-webkit-scrollbar{width:4px;height:4px;}
         ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:4px;}
         ::-webkit-scrollbar-track{background:transparent;}
