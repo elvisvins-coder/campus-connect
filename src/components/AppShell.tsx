@@ -7597,7 +7597,7 @@ const showToast = (msg: string) => {
         .identity-stat+.identity-stat{border-left:1px solid var(--border);}
         .identity-stat-num{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--text);}
         .identity-stat-label{font-size:9.5px;color:var(--text-3);font-weight:500;text-transform:uppercase;letter-spacing:0.06em;}
-        .sidebar-user{margin-top:auto;padding-top:16px;border-top:1px solid var(--border);}
+        .sidebar-user{margin-top:24px;padding-top:16px;padding-bottom:24px;border-top:1px solid var(--border);}
         .sidebar-user-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--border);cursor:pointer;transition:var(--transition);}
         .sidebar-user-card:hover{border-color:rgba(34,197,94,0.2);}
         .sidebar-user-name{font-size:13px;font-weight:600;color:var(--text);line-height:1.2;}
