@@ -2706,15 +2706,29 @@ const PublicProfile = ({
 
         {/* Follow + Message buttons — hide for admin */}
         {!isOwnProfile && uid !== ADMIN_UID && (
-          <div style={{ position: "absolute", bottom: 16, right: 20, display: "flex", gap: 8, zIndex: 2 }}>
+          <div
+  style={{
+    position: "absolute",
+    bottom: 16,
+    right: 16,
+    zIndex: 3,
+
+    display: "flex",
+    gap: 8,
+
+    maxWidth: "calc(100% - 140px)",
+    justifyContent: "flex-end",
+    flexWrap: "wrap",
+  }}
+>
             <button
               onClick={async () => {
                 const convoId = await startConversation(currentUserId ? { uid: currentUserId } : auth.currentUser, myProfile, uid, profile);
                 onOpenMessage?.(uid);
               }}
               style={{
-                padding: "8px 18px", borderRadius: 100,
-                fontSize: 12.5, fontWeight: 700,
+                padding: "7px 14px", borderRadius: 100,
+                fontSize: 11, fontWeight: 700,
                 fontFamily: "'Sora',sans-serif", cursor: "pointer",
                 border: "1.5px solid rgba(96,165,250,0.35)",
                 background: "rgba(96,165,250,0.12)",
@@ -2726,8 +2740,8 @@ const PublicProfile = ({
             <button
               onClick={() => isFollowing ? onUnfollow(uid) : onFollow(uid)}
               style={{
-                padding: "8px 22px", borderRadius: 100,
-                fontSize: 12.5, fontWeight: 700,
+                padding: "7px 14px", borderRadius: 100,
+                fontSize: 11, fontWeight: 700,
                 fontFamily: "'Sora',sans-serif", cursor: "pointer",
                 border: isFollowing
                   ? "1.5px solid rgba(255,255,255,0.2)"
@@ -2738,7 +2752,7 @@ const PublicProfile = ({
                 color: isFollowing ? "var(--text-2)" : "var(--green-glow)",
               }}
             >
-              {isFollowing ? "✓ Following" : "+ Follow"}
+              {isFollowing ? "Following" : "+ Follow"}
             </button>
           </div>
         )}
@@ -5356,7 +5370,7 @@ const ProfilePage = ({
 
     display: "flex",
     gap: 8,
-
+    alignItems: "center",
     maxWidth: "calc(100% - 140px)",
     justifyContent: "flex-end",
     flexWrap: "wrap",
