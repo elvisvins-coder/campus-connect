@@ -3125,6 +3125,9 @@ const SettingsPage = ({
   currentUser,
   notifPermission,
   requestPushPermission,
+  installPrompt,
+  isInstalled,
+  handleInstallClick,
 }: any) => {
 
   const Section = ({ title, icon, children }: any) => (
@@ -3497,6 +3500,46 @@ const SettingsPage = ({
               </div>
             </div>
           )}
+        </Section>
+
+        {/* ── App ── */}
+        <Section title="App" icon="📱">
+          <SettingRow
+            label="Install Campus Connect"
+            sublabel={
+              isInstalled
+                ? "Already installed on this device"
+                : installPrompt
+                ? "Add to your home screen for quick access"
+                : "Installable from your browser menu"
+            }
+          >
+            {isInstalled ? (
+              <span style={{
+                fontSize: 11, fontWeight: 700,
+                color: "var(--green-glow)",
+                padding: "4px 10px", borderRadius: 100,
+                background: "rgba(34,197,94,0.1)",
+                border: "1px solid rgba(34,197,94,0.25)",
+              }}>✓ Installed</span>
+            ) : installPrompt ? (
+              <button
+                onClick={handleInstallClick}
+                style={{
+                  padding: "6px 14px", borderRadius: 100,
+                  fontSize: 12, fontWeight: 700,
+                  fontFamily: "'Sora',sans-serif", cursor: "pointer",
+                  border: "1px solid rgba(34,197,94,0.4)",
+                  background: "rgba(34,197,94,0.1)",
+                  color: "var(--green-glow)",
+                }}
+              >
+                Install
+              </button>
+            ) : (
+              <span style={{ fontSize: 11, color: "var(--text-3)" }}>—</span>
+            )}
+          </SettingRow>
         </Section>
 
         {/* ── About ── */}
@@ -6891,6 +6934,42 @@ const composerImageRef = useRef<HTMLInputElement>(null);
     prevLockedRef.current = myProfile.profileLocked;
   }, [myProfile?.profileLocked, myProfile?.faculty]);
 
+  // ── PWA Install Prompt ────────────────────────────────────
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [isInstalled, setIsInstalled] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeInstall = (e: Event) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener("beforeinstallprompt", handleBeforeInstall);
+
+    const handleInstalled = () => {
+      setIsInstalled(true);
+      setInstallPrompt(null);
+    };
+    window.addEventListener("appinstalled", handleInstalled);
+
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      setIsInstalled(true);
+    }
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+      window.removeEventListener("appinstalled", handleInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const result = await installPrompt.userChoice;
+    if (result.outcome === "accepted") {
+      showToast("🎉 Campus Connect installed!");
+    }
+    setInstallPrompt(null);
+  };
   // ── FCM Push Notification Setup ───────────────────────────
   const [notifPermission, setNotifPermission] = useState(
     typeof Notification !== "undefined" ? Notification.permission : "default"
@@ -8462,6 +8541,9 @@ const showToast = (msg: string) => {
       currentUser={currentUser}
       notifPermission={notifPermission}
       requestPushPermission={requestPushPermission}
+      installPrompt={installPrompt}
+      isInstalled={isInstalled}
+      handleInstallClick={handleInstallClick}
     />
    ) : activeNav === "cbt" ? (
     examActive && examBank ? (
