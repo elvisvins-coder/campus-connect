@@ -2657,174 +2657,92 @@ const PublicProfile = ({
       </button>
 
       {/* Cover */}
-<div
-  style={{
-    width: "100%",
-    maxWidth: "100%",
-    height: 140,
-    position: "relative",
-    overflow: "hidden",
-    borderRadius: "0 0 20px 20px",
-    border: "1px solid var(--border)",
-    borderTop: "none",
-    boxSizing: "border-box",
-    marginBottom: 64,
-    background: (profile as any)?.coverUrl
-      ? "transparent"
-      : "linear-gradient(135deg,rgba(20,83,45,0.6),rgba(180,83,9,0.4))",
-  }}
->
-  {/* Cover image */}
-  {(profile as any)?.coverUrl && (
-    <div
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        overflow: "hidden",
+      <div style={{
+        height: 140,
         borderRadius: "0 0 20px 20px",
-      }}
-    >
-      <img
-        src={(profile as any).coverUrl}
-        alt="cover"
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          maxWidth: "100%",
-          maxHeight: "100%",
-          objectFit: "cover",
-          objectPosition: "center",
-          display: "block",
-        }}
-      />
-    </div>
-  )}
+        background: (profile as any)?.coverUrl
+          ? "transparent"
+          : "linear-gradient(135deg,rgba(20,83,45,0.6),rgba(180,83,9,0.4))",
+        border: "1px solid var(--border)", borderTop: "none",
+        position: "relative", marginBottom: 64,
+      }}>
+        {/* Cover image */}
+        {(profile as any)?.coverUrl && (
+          <div style={{
+            position:"absolute", inset:0,
+            overflow:"hidden",
+            borderRadius:"0 0 20px 20px",
+          }}>
+            <img
+              src={(profile as any).coverUrl}
+              alt="cover"
+              style={{
+                width:"100%", height:"100%",
+                objectFit:"cover", display:"block",
+              }}
+            />
+          </div>
+        )}
+        {/* Gradient overlay */}
+        <div style={{
+          position:"absolute", inset:0,
+          background:"linear-gradient(to top,rgba(6,13,8,0.6),transparent)",
+          zIndex:1,
+        }}/>
+        <div style={{
+          position: "absolute", bottom: -48, left: 24,
+          width: 88, height: 88, borderRadius: 20,
+          border: "3px solid var(--dark)",
+          background: profile.avatarUrl ? "transparent" : avatarGrad(uid),
+          overflow: "hidden",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 28, fontWeight: 700, color: "#fff",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
+        }}>
+          {profile.avatarUrl
+            ? <img src={profile.avatarUrl} alt={profile.name} style={{ width: "100%", height: "100%", objectFit: "cover" }}/>
+            : initials(profile.name)}
+        </div>
 
-  {/* Gradient */}
-  <div
-    style={{
-      position: "absolute",
-      inset: 0,
-      background: "linear-gradient(to top,rgba(6,13,8,0.6),transparent)",
-      zIndex: 1,
-      pointerEvents: "none",
-    }}
-  />
-
-  {/* Avatar */}
-  <div
-    style={{
-      position: "absolute",
-      bottom: -48,
-      left: 24,
-      width: 88,
-      height: 88,
-      borderRadius: 20,
-      border: "3px solid var(--dark)",
-      background: profile.avatarUrl ? "transparent" : avatarGrad(uid),
-      overflow: "hidden",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      fontSize: 28,
-      fontWeight: 700,
-      color: "#fff",
-      boxShadow: "0 4px 20px rgba(0,0,0,0.4)",
-      zIndex: 2,
-      flexShrink: 0,
-    }}
-  >
-    {profile.avatarUrl ? (
-      <img
-        src={profile.avatarUrl}
-        alt={profile.name}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          display: "block",
-        }}
-      />
-    ) : (
-      initials(profile.name)
-    )}
-  </div>
-
-  {/* Follow + Message buttons */}
-  {!isOwnProfile && uid !== ADMIN_UID && (
-    <div
-      style={{
-        position: "absolute",
-        bottom: 16,
-        right: 16,
-        zIndex: 3,
-
-        display: "flex",
-        gap: 8,
-
-        maxWidth: "calc(100% - 140px)",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        flexWrap: "wrap",
-      }}
-    >
-      <button
-        onClick={async () => {
-          await startConversation(
-            currentUserId ? { uid: currentUserId } : auth.currentUser,
-            myProfile,
-            uid,
-            profile
-          );
-          onOpenMessage?.(uid);
-        }}
-        style={{
-          padding: "7px 14px",
-          borderRadius: 100,
-          fontSize: 11,
-          fontWeight: 700,
-          fontFamily: "'Sora',sans-serif",
-          cursor: "pointer",
-          border: "1.5px solid rgba(96,165,250,0.35)",
-          background: "rgba(96,165,250,0.12)",
-          color: "#60a5fa",
-        }}
-      >
-        💬 Message
-      </button>
-
-      <button
-        onClick={() =>
-          isFollowing ? onUnfollow(uid) : onFollow(uid)
-        }
-        style={{
-          padding: "7px 16px",
-          borderRadius: 100,
-          fontSize: 11,
-          fontWeight: 700,
-          fontFamily: "'Sora',sans-serif",
-          cursor: "pointer",
-          border: isFollowing
-            ? "1.5px solid rgba(255,255,255,0.2)"
-            : "1.5px solid rgba(22,163,74,0.4)",
-          background: isFollowing
-            ? "rgba(255,255,255,0.08)"
-            : "rgba(22,163,74,0.15)",
-          color: isFollowing
-            ? "var(--text-2)"
-            : "var(--green-glow)",
-        }}
-      >
-        {isFollowing ? "✓ Following" : "+ Follow"}
-      </button>
-    </div>
-  )}
-</div>
+        {/* Follow + Message buttons — hide for admin */}
+        {!isOwnProfile && uid !== ADMIN_UID && (
+          <div style={{ position: "absolute", bottom: 16, right: 20, display: "flex", gap: 8, zIndex: 2 }}>
+            <button
+              onClick={async () => {
+                const convoId = await startConversation(currentUserId ? { uid: currentUserId } : auth.currentUser, myProfile, uid, profile);
+                onOpenMessage?.(uid);
+              }}
+              style={{
+                padding: "8px 18px", borderRadius: 100,
+                fontSize: 12.5, fontWeight: 700,
+                fontFamily: "'Sora',sans-serif", cursor: "pointer",
+                border: "1.5px solid rgba(96,165,250,0.35)",
+                background: "rgba(96,165,250,0.12)",
+                color: "#60a5fa",
+              }}
+            >
+              💬 Message
+            </button>
+            <button
+              onClick={() => isFollowing ? onUnfollow(uid) : onFollow(uid)}
+              style={{
+                padding: "8px 22px", borderRadius: 100,
+                fontSize: 12.5, fontWeight: 700,
+                fontFamily: "'Sora',sans-serif", cursor: "pointer",
+                border: isFollowing
+                  ? "1.5px solid rgba(255,255,255,0.2)"
+                  : "1.5px solid rgba(22,163,74,0.4)",
+                background: isFollowing
+                  ? "rgba(255,255,255,0.08)"
+                  : "rgba(22,163,74,0.15)",
+                color: isFollowing ? "var(--text-2)" : "var(--green-glow)",
+              }}
+            >
+              {isFollowing ? "✓ Following" : "+ Follow"}
+            </button>
+          </div>
+        )}
+      </div>
 
       <div style={{ padding: "0 20px" }}>
         {/* Name and faculty */}
@@ -5438,7 +5356,7 @@ const ProfilePage = ({
 
     display: "flex",
     gap: 8,
-    alignItems: "center",
+
     maxWidth: "calc(100% - 140px)",
     justifyContent: "flex-end",
     flexWrap: "wrap",
