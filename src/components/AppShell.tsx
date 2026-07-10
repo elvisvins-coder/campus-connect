@@ -5259,7 +5259,7 @@ const ProfilePage = ({
   const profile     = myProfile;
 
   return (
-    <div style={{maxWidth:640,margin:"0 auto",padding:"0 0 40px"}}>
+    <div style={{maxWidth:640, width:"100%", margin:"0 auto", padding:"0 0 40px"}}>
       {/* Cover */}
       <div style={{
         height:140,
@@ -5347,7 +5347,21 @@ const ProfilePage = ({
         </div>
         <input ref={avatarRef} type="file" accept="image/*" style={{display:"none"}} onChange={handleAvatarChange}/>
         {/* Save/Edit buttons */}
-        <div style={{marginLeft:"auto", display:"flex", gap:8, position:"relative", zIndex:2}}>
+        <div
+  style={{
+    position: "absolute",
+    bottom: 16,
+    right: 16,
+    zIndex: 3,
+
+    display: "flex",
+    gap: 8,
+
+    maxWidth: "calc(100% - 140px)",
+    justifyContent: "flex-end",
+    flexWrap: "wrap",
+  }}
+>
           {editMode ? (
             <>
               <button onClick={()=>setEditMode(false)} style={{
@@ -5365,11 +5379,11 @@ const ProfilePage = ({
             </>
           ):(
             <button onClick={()=>setEditMode(true)} style={{
-              padding:"7px 18px", borderRadius:100,
+              padding:"7px 14px", borderRadius:100,
               border:"1.5px solid rgba(22,163,74,0.4)",
               background:"rgba(22,163,74,0.1)", color:"var(--green-glow)",
-              fontSize:12, fontWeight:700, fontFamily:"'Sora',sans-serif", cursor:"pointer",
-            }}>✏️ Edit Profile</button>
+              fontSize:11, fontWeight:700, fontFamily:"'Sora',sans-serif", cursor:"pointer",
+            }}>✏️ Edit</button>
           )}
         </div>
       </div>
