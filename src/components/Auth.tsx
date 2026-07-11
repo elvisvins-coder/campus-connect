@@ -810,7 +810,7 @@ export default function Auth() {
           <button
             className={`auth-tab${!showSignup ? " active" : ""}`}
             onClick={() => { setShowSignup(false); setStep(1); }}
-          >Sign In</button>
+          >Login</button>
           <button
             className={`auth-tab${showSignup ? " active" : ""}`}
             onClick={() => { setShowSignup(true); setStep(1); }}
@@ -1001,7 +1001,7 @@ export default function Auth() {
                     Continue →
                   </button>
                   <button className="btn-secondary" onClick={() => { setShowSignup(false); setStep(1); }}>
-                    ← Back to Sign In
+                    ← Back to Login
                   </button>
                 </div>
               </div>

@@ -259,8 +259,11 @@ const deptFmt = { num: String(stats.departments || "—"), sup: stats.department
           .navbar {
             padding: 0 14px;
           }
-          .nav-wordmark {
-            display: none;
+          .nav-name {
+            font-size: 12px;
+          }
+          .nav-sub {
+            font-size: 8px;
           }
           .nav-cta {
             gap: 6px;
@@ -640,7 +643,7 @@ const deptFmt = { num: String(stats.departments || "—"), sup: stats.department
           </button>
           <button className="btn-pill btn-pill-primary"
             onClick={() => document.getElementById("auth-section")?.scrollIntoView({ behavior: "smooth" })}>
-            Join Free →
+            Join →
           </button>
         </div>
         
