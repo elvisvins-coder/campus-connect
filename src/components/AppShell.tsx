@@ -2237,7 +2237,7 @@ const ReVerificationForm = ({
       <input
         value={verFullName}
         onChange={e => setVerFullName(e.target.value)}
-        placeholder="e.g. VIXZOO VIXMAN KAKARA"
+        placeholder="e.g. Gavriel K-Town"
         style={{
           width:"100%", padding:"10px 14px",
           background:"#0e1e12",
@@ -7638,7 +7638,7 @@ const showToast = (msg: string) => {
         @keyframes shell-bar{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
         @keyframes shell-blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
 
-        .topbar{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--topbar-h);display:flex;align-items:center;padding:0 16px;gap:12px;background:rgba(6,13,8,0.88);backdrop-filter:blur(28px) saturate(1.3);border-bottom:1px solid var(--border);}
+        .topbar{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--topbar-h);display:flex;align-items:center;padding:0 16px;gap:12px;background:var(--dark-2);backdrop-filter:blur(28px) saturate(1.3);border-bottom:1px solid var(--border);}
         .topbar::after{content:'';position:absolute;bottom:-1px;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,rgba(34,197,94,0.2),transparent);}
         .hamburger-btn{width:36px;height:36px;border-radius:10px;background:var(--surface);border:1px solid var(--border);display:none;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0;color:var(--text-2);transition:var(--transition);}
         .hamburger-btn:hover{background:var(--surface-2);}
@@ -7668,7 +7668,7 @@ const showToast = (msg: string) => {
 
         .app-layout{position:relative;display:grid;grid-template-columns:var(--sidebar-w) 1fr var(--right-w);grid-template-areas:"sidebar feed right";min-height:100vh;padding-top:var(--topbar-h);}
 
-        .sidebar{grid-area:sidebar;position:sticky;top:var(--topbar-h);height:calc(100vh - var(--topbar-h));overflow-y:auto;overflow-x:hidden;padding:28px 12px 32px;border-right:1px solid var(--border);background:rgba(6,13,8,0.6);display:flex;flex-direction:column;gap:4px;}
+        .sidebar{grid-area:sidebar;position:sticky;top:var(--topbar-h);height:calc(100vh - var(--topbar-h));overflow-y:auto;overflow-x:hidden;padding:28px 12px 32px;border-right:1px solid var(--border);background:var(--dark-2);display:flex;flex-direction:column;gap:4px;}
         .sidebar-section-label{font-size:9.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-3);padding:12px 12px 6px;}
         .nav-item{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:12px;cursor:pointer;transition:var(--transition);border:1px solid transparent;position:relative;}
         .nav-item:hover{background:var(--surface);border-color:var(--border);}
@@ -7785,7 +7785,7 @@ const showToast = (msg: string) => {
         
         @keyframes fade-in{from{opacity:0;}to{opacity:1;}}
 
-        .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;height:var(--bottom-nav-h);background:rgba(6,13,8,0.95);backdrop-filter:blur(28px);border-top:1px solid var(--border);padding:0 4px;align-items:center;justify-content:space-around;}
+        .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;height:var(--bottom-nav-h);background:var(--dark-2);backdrop-filter:blur(28px);border-top:1px solid var(--border);padding:0 4px;align-items:center;justify-content:space-around;}
         .bottom-nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;padding:8px 4px;cursor:pointer;border-radius:12px;transition:var(--transition);position:relative;}
         .bottom-nav-item.active{background:rgba(22,163,74,0.1);}
         .bottom-nav-icon{font-size:20px;line-height:1;}
@@ -7797,7 +7797,7 @@ const showToast = (msg: string) => {
         @media (max-width:1023px){
           :root{--sidebar-w:260px;--right-w:280px;}
           .app-layout{grid-template-columns:1fr;grid-template-areas:"feed";}
-          .sidebar{position:fixed!important;top:var(--topbar-h);left:0;width:var(--sidebar-w);height:calc(100vh - var(--topbar-h));z-index:400;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);border-right:1px solid rgba(255,255,255,0.12);background:rgba(6,13,8,0.98);backdrop-filter:blur(20px);pointer-events:auto;}
+          .sidebar{position:fixed!important;top:var(--topbar-h);left:0;width:var(--sidebar-w);height:calc(100vh - var(--topbar-h));z-index:400;transform:translateX(-100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);border-right:1px solid var(--border);background:var(--dark-2);backdrop-filter:blur(20px);pointer-events:auto;}
           .sidebar.open{transform:translateX(0);}
           .right-panel{position:fixed!important;top:var(--topbar-h);right:0;width:var(--right-w);height:calc(100vh - var(--topbar-h));z-index:360;transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);border-left:1px solid rgba(255,255,255,0.12);background:rgba(6,13,8,0.98);backdrop-filter:blur(20px);}
           .right-panel.open{transform:translateX(0);}
@@ -7815,7 +7815,8 @@ const showToast = (msg: string) => {
         @media (max-width:599px){
           :root{--topbar-h:52px;--bottom-nav-h:60px;}
           .topbar{padding:0 12px;gap:8px;}
-          .logo-text-wrap{display:none;}
+          .logo-text{font-size:11px;}
+          .logo-sub{font-size:7px;}
           .topbar-logo{width:auto;}
             .main-feed{padding:12px 12px calc(var(--bottom-nav-h) + 12px);width:100%;max-width:100%;overflow-x:hidden;}
           .composer{padding:14px;}

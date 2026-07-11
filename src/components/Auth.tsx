@@ -223,7 +223,7 @@ export default function Auth() {
  } catch (err: any) {
     const code = err.code;
     const messages: Record<string, string> = {
-      "auth/email-already-in-use":   "❌ An account with this email already exists. Please sign in instead.",
+      "auth/email-already-in-use":   "❌ An account with this email already exists. Please  Login instead.",
       "auth/invalid-email":          "❌ That doesn't look like a valid email address.",
       "auth/weak-password":          "❌ Password is too weak. Use at least 6 characters.",
       "auth/network-request-failed": "🌐 Network error. Check your internet connection and try again.",
@@ -350,7 +350,7 @@ export default function Auth() {
           marginBottom:32, lineHeight:1.7,
         }}>
           Hey <strong style={{color:"#f0f4f1"}}>{welcomeName}</strong>, your account is ready! 🎉<br/>
-          You're now part of the TASU student community.
+          You're now part of the TSU student community.
         </div>
 
         <div style={{
@@ -850,7 +850,7 @@ export default function Auth() {
                 <span className="field-icon">✉️</span>
                 <input
                   type="email"
-                  placeholder="you@tasu.edu.ng"
+                  placeholder="you@gmail.com"
                   className="auth-input"
                   value={loginEmail}
                   onChange={e => setLoginEmail(e.target.value)}
@@ -907,7 +907,7 @@ export default function Auth() {
             {/* CTA */}
             <button className="btn-primary" onClick={handleLogin} disabled={loading}>
               {loading && <div className="spinner" />}
-              {loading ? "Signing in…" : "Sign In →"}
+              {loading ? "Logging in…" : "Login →"}
             </button>
 
             <div className="divider">
@@ -960,7 +960,7 @@ export default function Auth() {
                     <label className="field-label">First Name</label>
                     <div className="field-wrap">
                       <span className="field-icon">👤</span>
-                      <input name="name" placeholder="vix" className="auth-input"
+                      <input name="name" placeholder="Gavi" className="auth-input"
                         value={signupData.name} onChange={handleChange} />
                     </div>
                   </div>
@@ -968,7 +968,7 @@ export default function Auth() {
                     <label className="field-label">Surname</label>
                     <div className="field-wrap">
                       <span className="field-icon">👤</span>
-                      <input name="surname" placeholder="vixzoo" className="auth-input"
+                      <input name="surname" placeholder="Gavison" className="auth-input"
                         value={signupData.surname} onChange={handleChange} />
                     </div>
                   </div>
@@ -978,7 +978,7 @@ export default function Auth() {
                   <label className="field-label">Personal Email</label>
                   <div className="field-wrap">
                     <span className="field-icon">✉️</span>
-                    <input name="email" type="email" placeholder="you@tasu.edu.ng" className="auth-input"
+                    <input name="email" type="email" placeholder="you@gmail.com" className="auth-input"
                       value={signupData.email} onChange={handleChange} />
                   </div>
                 </div>
