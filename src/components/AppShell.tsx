@@ -630,11 +630,11 @@ const bookmarked = post.bookmarks.includes(currentUserId);
   });
 
   if (imgs.length === 1) return (
-    <div style={{marginBottom:14,borderRadius:12,overflow:"hidden",border:"1px solid var(--border)"}}>
-      <img src={imgs[0]} alt="post" style={{...imgStyle(360),maxHeight:480,height:"auto",objectFit:"contain",background:"rgba(0,0,0,0.3)"}}
-        onClick={() => onImageClick(imgs, 0)}/>
-    </div>
-  );
+  <div style={{marginBottom:14,borderRadius:12,overflow:"hidden",border:"1px solid var(--border)"}}>
+    <img src={imgs[0]} alt="post" style={{...imgStyle(360),maxHeight:480,height:"auto",objectFit:"cover"}}
+      onClick={() => onImageClick(imgs, 0)}/>
+  </div>
+);
 
   if (imgs.length === 2) return (
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:3,marginBottom:14,borderRadius:12,overflow:"hidden",border:"1px solid var(--border)"}}>
@@ -3619,7 +3619,7 @@ const BadgesSection = ({ myProfile }: { myProfile: UserProfile | null }) => {
           <div style={{ fontSize: 11.5, color: "var(--text-3)", marginTop: 2 }}>
             {silverStars > 0
               ? `Awarded ${silverStars} time${silverStars !== 1 ? "s" : ""} for top monthly poster`
-              : "Awarded to top poster of the month"}
+              : "Awarded to top poster of the Week"}
           </div>
           <div style={{ fontSize: 11, color: "var(--text-2)", marginTop: 6 }}>
             {postsThisWeek} post{postsThisWeek !== 1 ? "s" : ""} this week
@@ -7744,7 +7744,7 @@ const showToast = (msg: string) => {
         .post-time{font-size:11px;color:var(--text-3);white-space:nowrap;flex-shrink:0;}
         .post-more-btn{width:28px;height:28px;border-radius:8px;background:transparent;border:1px solid transparent;color:var(--text-3);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0;}
         .post-more-btn:hover{background:var(--surface);border-color:var(--border);color:var(--text-2);}
-        .post-body{font-size:13.5px;line-height:1.75;color:rgba(240,244,241,0.85);margin-bottom:14px;}
+        .post-body{font-size:13.5px;line-height:1.75;color:rgba(240,244,241,0.85);margin-bottom:14px;white-space:pre-wrap;word-wrap:break-word;}
         .post-actions{display:flex;align-items:center;gap:2px;padding-top:10px;border-top:1px solid var(--border);flex-wrap:wrap;}
         .action-btn{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:10px;background:transparent;border:none;color:var(--text-3);font-size:12px;font-weight:500;font-family:'Sora',sans-serif;cursor:pointer;transition:var(--transition);white-space:nowrap;}
         .action-btn:hover{background:var(--surface);color:var(--text-2);}
@@ -7807,11 +7807,42 @@ const showToast = (msg: string) => {
           .main-feed{padding:20px 24px 32px;max-width:100%;}
         }
         @media (max-width:767px){
-  .main-feed{padding:16px 16px calc(var(--bottom-nav-h) + 16px);max-width:100%;width:100%;overflow-x:hidden;}
-          .bottom-nav{display:flex;}
-          .topbar-search{display:none;}
-          .topbar-search-btn{display:flex;}
-        }
+  .main-feed{padding:0 0 calc(var(--bottom-nav-h) + 16px);max-width:100%;width:100%;overflow-x:hidden;}
+  .composer{border-radius:0;border-left:none;border-right:none;margin-left:0;margin-right:0;}
+  .post-card{
+    border-radius:0;
+    border-left:none;
+    border-right:none;
+    border-top:none;
+    border-bottom:1px solid var(--border);
+    margin-bottom:0;
+    padding:16px 16px 14px;
+  }
+  .post-name{font-size:14.5px;font-weight:800;}
+  .post-body{font-size:14.5px;font-weight:500;line-height:1.6;}
+  .bottom-nav{display:flex;}
+  .topbar-search{display:none;}
+  .topbar-search-btn{display:flex;}
+}
+  @media (max-width:767px){
+  .post-card > div[style*="border-radius:12px"] {
+    margin-left:-16px;
+    margin-right:-16px;
+    border-radius:0 !important;
+  }
+}
+  @media (max-width:599px){
+  .post-card > div[style*="border-radius:12px"] {
+    margin-left:-16px;
+    margin-right:-16px;
+  }
+}
+@media (max-width:379px){
+  .post-card > div[style*="border-radius:12px"] {
+    margin-left:-14px;
+    margin-right:-14px;
+  }
+}
         @media (max-width:599px){
           :root{--topbar-h:52px;--bottom-nav-h:60px;}
           .topbar{padding:0 12px;gap:8px;}
@@ -7819,9 +7850,9 @@ const showToast = (msg: string) => {
           .logo-sub{font-size:7px;}
           .topbar-logo{width:auto;}
             .main-feed{padding:12px 12px calc(var(--bottom-nav-h) + 12px);width:100%;max-width:100%;overflow-x:hidden;}
-          .composer{padding:14px;}
-          .post-card{padding:14px;border-radius:16px;}
-          .post-body{font-size:13px;}
+          .composer{padding:14px;border-radius:0;}
+          .post-card{padding:14px 16px;border-radius:0;}
+          .post-body{font-size:14px;font-weight:500;}
           .feed-section-header{flex-wrap:nowrap;}
           .feed-tabs{gap:3px;overflow-x:auto;scrollbar-width:none;}
           .feed-tabs::-webkit-scrollbar{display:none;}
@@ -7829,7 +7860,8 @@ const showToast = (msg: string) => {
           .action-btn{padding:6px 8px;font-size:11px;}
         }
         @media (max-width:379px){
-  .main-feed{padding:10px 10px calc(var(--bottom-nav-h) + 10px);width:100%;max-width:100%;overflow-x:hidden;}          .post-card{padding:12px;margin-bottom:10px;}
+  .main-feed{padding:0 0 calc(var(--bottom-nav-h) + 10px);width:100%;max-width:100%;overflow-x:hidden;}
+  .post-card{padding:12px 14px;margin-bottom:0;}
         }
 
         /* Profile page responsive */
