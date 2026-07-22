@@ -624,14 +624,17 @@ const bookmarked = post.bookmarks.includes(currentUserId);
     : [];
   if (imgs.length === 0) return null;
 
-  const imgStyle = (h: number): React.CSSProperties => ({
-    width:"100%", height:h, objectFit:"cover",
+  const imgStyle = (ratio: number): React.CSSProperties => ({
+    width:"100%", aspectRatio: ratio, objectFit:"cover",
     display:"block", cursor:"pointer",
   });
 
   if (imgs.length === 1) return (
   <div style={{marginBottom:14,borderRadius:12,overflow:"hidden",border:"1px solid var(--border)"}}>
-    <img src={imgs[0]} alt="post" style={{...imgStyle(360),maxHeight:480,height:"auto",objectFit:"cover"}}
+    <img src={imgs[0]} alt="post" style={{
+        width:"100%", maxHeight:480,
+        objectFit:"contain", display:"block", cursor:"pointer",
+      }}
       onClick={() => onImageClick(imgs, 0)}/>
   </div>
 );
@@ -639,7 +642,7 @@ const bookmarked = post.bookmarks.includes(currentUserId);
   if (imgs.length === 2) return (
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:3,marginBottom:14,borderRadius:12,overflow:"hidden",border:"1px solid var(--border)"}}>
       {imgs.map((url,i) => (
-        <img key={i} src={url} alt={`post-${i}`} style={imgStyle(220)}
+        <img key={i} src={url} alt={`post-${i}`} style={imgStyle(1)}
           onClick={() => onImageClick(imgs, i)}/>
       ))}
     </div>
@@ -647,19 +650,19 @@ const bookmarked = post.bookmarks.includes(currentUserId);
 
   if (imgs.length === 3) return (
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:3,marginBottom:14,borderRadius:12,overflow:"hidden",border:"1px solid var(--border)"}}>
-      <img src={imgs[0]} alt="post-0" style={{...imgStyle(300),gridRow:"span 2"}}
-        onClick={() => onImageClick(imgs, 0)}/>
-      <img src={imgs[1]} alt="post-1" style={imgStyle(148)}
-        onClick={() => onImageClick(imgs, 1)}/>
-      <img src={imgs[2]} alt="post-2" style={imgStyle(148)}
-        onClick={() => onImageClick(imgs, 2)}/>
+      <img src={imgs[0]} alt="post-0" style={{...imgStyle(0.7),gridRow:"span 2"}}
+  onClick={() => onImageClick(imgs, 0)}/>
+<img src={imgs[1]} alt="post-1" style={imgStyle(1.4)}
+  onClick={() => onImageClick(imgs, 1)}/>
+<img src={imgs[2]} alt="post-2" style={imgStyle(1.4)}
+  onClick={() => onImageClick(imgs, 2)}/>
     </div>
   );
 
   if (imgs.length === 4) return (
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:3,marginBottom:14,borderRadius:12,overflow:"hidden",border:"1px solid var(--border)"}}>
       {imgs.map((url,i) => (
-        <img key={i} src={url} alt={`post-${i}`} style={imgStyle(180)}
+        <img key={i} src={url} alt={`post-${i}`} style={imgStyle(1.2)}
           onClick={() => onImageClick(imgs, i)}/>
       ))}
     </div>
@@ -668,7 +671,7 @@ const bookmarked = post.bookmarks.includes(currentUserId);
   return (
     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:3,marginBottom:14,borderRadius:12,overflow:"hidden",border:"1px solid var(--border)"}}>
       {imgs.slice(0,3).map((url,i) => (
-        <img key={i} src={url} alt={`post-${i}`} style={imgStyle(180)}
+        <img key={i} src={url} alt={`post-${i}`} style={imgStyle(1.2)}
           onClick={() => onImageClick(imgs, i)}/>
       ))}
       {imgs[3] && (
