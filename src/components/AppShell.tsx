@@ -8,7 +8,7 @@ import {
   collection, addDoc, getDocs, onSnapshot, doc,
   updateDoc, arrayUnion, arrayRemove, query,
   orderBy, serverTimestamp, getDoc, setDoc, limit,
-  where, deleteDoc,
+  where, deleteDoc, startAfter,
 } from "firebase/firestore";
 import {
   ref, uploadBytes, getDownloadURL,
@@ -6559,6 +6559,9 @@ export default function AppShell({ currentUser }: { currentUser: import("firebas
   // ── State ────────────────────────────────────────────────
   const [activeNav,      setActiveNav]      = useState("feed");
   const [posts,          setPosts]          = useState<Post[]>([]);
+  const [lastPostDoc, setLastPostDoc] = useState<any>(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMorePosts, setHasMorePosts] = useState(true);
   const [viewingProfile, setViewingProfile] = useState<string|null>(null);
   const [showFollowers,  setShowFollowers]  = useState<{uid:string; type:"followers"|"following"}|null>(null);
   const [myProfile,   setMyProfile]   = useState<UserProfile|null>(null);
@@ -6733,11 +6736,13 @@ const composerImageRef = useRef<HTMLInputElement>(null);
   }, [currentUser.uid]);
   // ── Live feed ─────────────────────────────────────────────
   useEffect(()=>{
-    const q = query(collection(db,"posts"), orderBy("createdAt","desc"), limit(40));
+    const q = query(collection(db,"posts"), orderBy("createdAt","desc"), limit(20));
     const unsub = onSnapshot(q, 
  snap => {
     const arr: Post[] = snap.docs.map(d=>({id:d.id,...d.data()} as Post));
     setPosts(arr);
+    setLastPostDoc(snap.docs[snap.docs.length - 1] || null);
+    setHasMorePosts(snap.docs.length === 20);
     setPostsLoading(false);
     setTimeout(() => setShellReady(true), 300);
   },
@@ -6749,6 +6754,21 @@ const composerImageRef = useRef<HTMLInputElement>(null);
 );
     return () => unsub();
   },[]);
+
+  
+
+  // ── Infinite scroll trigger ────────────────────────────────
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const threshold = document.documentElement.scrollHeight - 800;
+      if (scrollPosition >= threshold) {
+        loadMorePosts();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastPostDoc, loadingMore, hasMorePosts]);
 
   // ── Profile posts ─────────────────────────────────────────
   
@@ -7013,6 +7033,27 @@ const composerImageRef = useRef<HTMLInputElement>(null);
   }, []);
   // ── Handlers ──────────────────────────────────────────────
   const handleLogout = async () => { await signOut(auth); };
+  const loadMorePosts = async () => {
+  if (!lastPostDoc || loadingMore || !hasMorePosts) return;
+  setLoadingMore(true);
+  try {
+    const q = query(
+      collection(db, "posts"),
+      orderBy("createdAt", "desc"),
+      startAfter(lastPostDoc),
+      limit(20)
+    );
+    const snap = await getDocs(q);
+    const newPosts: Post[] = snap.docs.map(d => ({ id: d.id, ...d.data() } as Post));
+    setPosts(prev => [...prev, ...newPosts]);
+    setLastPostDoc(snap.docs[snap.docs.length - 1] || null);
+    setHasMorePosts(snap.docs.length === 20);
+  } catch (err) {
+    console.error("Load more error:", err);
+  } finally {
+    setLoadingMore(false);
+  }
+};
 const markNotifsRead = async () => {
   const unread = notifications.filter(n => !n.read);
   await Promise.all(
@@ -8944,6 +8985,17 @@ const showToast = (msg: string) => {
           />
         ))
       )}
+     {loadingMore && (
+        <div style={{textAlign:"center", padding:"20px"}}>
+          <div className="spinner" style={{margin:"0 auto"}}/>
+        </div>
+      )}
+      {!hasMorePosts && posts.length > 0 && (
+        <div style={{textAlign:"center", padding:"20px", color:"var(--text-3)", fontSize:12}}>
+          You've reached the end 
+        </div>
+      )}
+      
     </>
   )}
 </main>
