@@ -70,6 +70,7 @@ const tasuFaculties: Record<string, string[]> = {
     "Mathematics",
     "Physics",
     "Statistics",
+    "Biotechnology",
   ],
   "Law": [
     "Law",
