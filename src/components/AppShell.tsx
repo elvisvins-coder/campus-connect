@@ -304,6 +304,7 @@ const DEPARTMENTS: Record<string, string[]> = {
     "Mathematics",
     "Physics",
     "Statistics",
+    "Biotechnology",
   ],
   "Law": [
     "Law",
