@@ -597,24 +597,18 @@ const deptFmt = { num: String(stats.departments || "—"), sup: stats.department
 
         /* ─── RESPONSIVE ─── */
         @media (max-width: 960px) {
-          .page { flex-direction: column; }
-          .nav-links { display: none; }
-          .nav-hamburger { display: flex; }
-          .left-panel { padding: 28px 24px 20px; flex: none; }
-          .float-badge { display: none; }
-          .hero-headline { font-size: clamp(24px,6vw,36px); margin-bottom: 20px; }
-          .portrait-card { max-height: 260px; aspect-ratio: 16/9; }
-          .stats-row { display: none; }
-          .right-panel { flex: 1; padding: 24px 24px 40px; align-items: flex-start; }
-        }
+  .page { flex-direction: column; }
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .left-panel { display: none; }
+  .right-panel { flex: 1; width: 100%; padding: 24px 24px 40px; align-items: center; justify-content: center; }
+}
         @media (max-width: 480px) {
-          .navbar { padding: 0 20px; }
-          .left-panel { padding: 20px 16px 16px; }
-          .right-panel { padding: 16px 16px 32px; }
-          .portrait-card { max-height: 220px; }
-          .btn-pill { padding: 8px 16px; font-size: 12px; }
-          .nav-name { font-size: 14px; }
-        }
+  .navbar { padding: 0 20px; }
+  .right-panel { padding: 16px 16px 32px; }
+  .btn-pill { padding: 8px 16px; font-size: 12px; }
+  .nav-name { font-size: 14px; }
+}
       `}</style>
 
       {/* Scene / background */}
