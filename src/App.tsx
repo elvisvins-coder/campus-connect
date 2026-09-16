@@ -269,18 +269,9 @@ const deptFmt = { num: String(stats.departments || "—"), sup: stats.department
             gap: 6px;
             margin-left: 4px;
           }
-                    .btn-pill {
+          .btn-pill {
             padding: 7px 14px;
             font-size: 12px;
-          }
-          .left-panel {
-            display: none;
-          }
-          .right-panel {
-            flex: 1;
-            width: 100%;
-            padding: 20px 16px 32px;
-            align-items: flex-start;
           }
         }
 
